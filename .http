@@ -1,0 +1,9 @@
+
+###
+POST  http://localhost:3000/service/reviewer
+Content-Type: application/json
+
+{
+  "prompt": "implement graceful shutdown",
+  "file": "import \"dotenv/config\";\nimport express, { Request, Response } from \"express\";\nimport morgan from \"morgan\";\nimport reviewerRouter from \"./routers/reviewer\";\n\nconst { log, clear, error } = console;\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\napp.use(morgan(\"dev\"));\n\napp.get(\"/\", async (req: Request, res: Response) => {\n  res.json({ message: \"hello world\" });\n});\n\napp.use(\"/service\", reviewerRouter);\n\napp.listen(PORT, function () {\n  log(`Server is listening on port ${PORT}`);\n});\n"
+}
