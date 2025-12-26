@@ -112,7 +112,7 @@ The **JSON output** must be valid and machine-parsable. Example:
 The response MUST contain ONLY the following, in this exact order
 
 1. A valid JSON array
-2. A single line containing only \`-\`
+2. A single character containing only \`${String.fromCharCode(65520)}\`
 3. A summary text with heading says **Summary:**
 
 * No backticks
@@ -130,7 +130,7 @@ The response MUST contain ONLY the following, in this exact order
 
 \`\`\`
 <JSON_ARRAY>
--
+${String.fromCharCode(65520)}
 Summary:
 <summary_text>
 \`\`\`

@@ -20,7 +20,7 @@ export const promptParser = ({
 
 export const responseParser = ({ text }: GenerateContentResponse) => {
   console.log(text);
-  const [review, summary] = text?.split("-") || [];
+  const [review, summary] = text?.split(String.fromCharCode(65520)) || [];
   const json = jsonParser(review.trim());
   const summary_content = summary.trim().split("\n")[1].trim();
   return { json, summary: summary_content };
