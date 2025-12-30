@@ -12,14 +12,12 @@ export const promptParser = ({
   system,
 }: PromptParserArguments) => {
   const parsedFile = fileParser(file ?? "");
-  console.log(parsedFile);
   return `### Prompt\n${prompt}\n### File\n${
     !!file ? parsedFile : "(File not received)"
   }\nEOF\n${system && `### System Prompt\n${system}`}`;
 };
 
 export const responseParser = ({ text }: GenerateContentResponse) => {
-  console.log(text);
   const [review, summary] = text?.split(String.fromCharCode(65520)) || [];
   const json = jsonParser(review.trim());
   const summary_content = summary.trim().split("\n")[1].trim();
@@ -59,7 +57,7 @@ export const jsonParser = (jsonString: string) => {
   }
 
   try {
-    return JSON.parse(result.join(""));
+    return parseLLMJson(result.join(""));
   } catch (err) {
     return null;
   }
@@ -69,3 +67,19 @@ export const fileParser = (file: string) => {
   const lines = file.split("\n");
   return lines.map((val, idx) => `${idx + 1}|\u3164${val}`).join("\n");
 };
+
+export function parseLLMJson<T>(response: string): T {
+  const trimmedResponse = response.trim();
+  const markdownRegex = /```(?:json)?\s*([\s\S]*?)\s*```/;
+  const match = trimmedResponse.match(markdownRegex);
+  const jsonString = match ? match[1] : trimmedResponse;
+  try {
+    return JSON.parse(jsonString) as T;
+  } catch (error) {
+    throw new Error(
+      `Failed to parse JSON: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    );
+  }
+}
