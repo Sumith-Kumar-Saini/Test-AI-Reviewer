@@ -19,27 +19,31 @@ form.addEventListener("submit", (el) => {
 async function sendPrompt() {
   const promptContent = promptInput.value.trim();
   const fileContent = fileInput.value.trim();
-  console.log({ promptContent, fileContent });
-  if (promptContent && fileContent) {
-    loading.style.display = "block";
-    try {
-      const { data } = await axios.post("/service/reviewer", {
-        prompt: promptContent,
-        file: fileContent,
-      });
-      loading.style.display = "none";
-      const review = JSON.stringify(data.review, null, 2).trim().split("\n");
-      const ReviewedContent = review
-        .map((content, idx) => {
-          return `<pre id="pre-${idx + 1}">${content}</pre>`;
-        })
-        .join("");
+  // console.log({ promptContent, fileContent });
+  // if (promptContent && fileContent) {
+  loading.style.display = "block";
+  try {
+    const { data } = await axios.post("/service/reviewer", {
+      prompt: promptContent,
+      file: fileContent,
+    });
+    loading.style.display = "none";
+    // const review = JSON.stringify(data.review, null, 2).trim().split("\\n");
+    // const ReviewedContent = review
+    //   .map((content, idx) => {
+    //     return `<pre id="pre-${idx + 1}">${content}</pre><br>`;
+    //   })
+    //   .join("");
 
-      output.innerHTML =
-        typeof data.review === "string" ? data.review : ReviewedContent;
-    } catch (error) {
-      loading.style.display = "none";
-      output.innerHTML = `<p class=\"error-message\">Error: ${error.message}</p>`;
-    }
+    // console.log(review);
+    // console.log("---------");
+    // console.log(data.review);
+
+    // output.innerHTML =
+    //   typeof data.review === "string" ? data.review : ReviewedContent;
+    output.innerHTML = marked.parse(data.review);
+  } catch (error) {
+    loading.style.display = "none";
+    output.innerHTML = `<p class=\"error-message\">Error: ${error.message}</p>`;
   }
 }

@@ -83,3 +83,7 @@ export function parseLLMJson<T>(response: string): T {
     );
   }
 }
+
+export const promptReviewParser = ({ prompt, file }: PromptParserArguments) => {
+  return `### Prompt\n${prompt}\n### File\n${file}`;
+};

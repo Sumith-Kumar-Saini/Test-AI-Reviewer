@@ -10,9 +10,20 @@
       type="image/x-icon"
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+      li {
+        list-style-type: disc;
+      }
+
+      .reset-tailwind * {
+        all: revert;
+      }
+    </style>
   </head>
   <body class="w-full h-screen bg-zinc-900 text-zinc-100 relative">
-    <div class="loading-state w-full absolute t-0 l-0 flex justify-center hidden">
+    <div
+      class="loading-state w-full absolute t-0 l-0 flex justify-center hidden"
+    >
       <div class="loading">Loading...</div>
     </div>
     <div class="main w-full h-screen flex justify-between gap-4 p-16">
@@ -39,10 +50,11 @@
       </form>
       <div
         id="output"
-        class="w-full border border rounded-lg overflow-scroll"
+        class="w-full border border rounded-lg overflow-scroll p-3 reset-tailwind"
       ></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
